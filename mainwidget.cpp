@@ -5,14 +5,14 @@
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent)
 {
-    plcd = new lcd;
+    plcd = new lcd(parent);
 
-    upBtn = new QPushButton(tr("UP"));
-    dnBtn = new QPushButton(tr("DOWN"));
-    leftBtn = new QPushButton(tr("LEFT"));
-    rightBtn = new QPushButton(tr("RIGHT"));
-    enBtn = new QPushButton(tr("Enter"));
-    cnBtn = new QPushButton(tr("Cancel"));
+    upBtn = new QPushButton(tr("UP"), parent);
+    dnBtn = new QPushButton(tr("DOWN"), parent);
+    leftBtn = new QPushButton(tr("LEFT"), parent);
+    rightBtn = new QPushButton(tr("RIGHT"), parent);
+    enBtn = new QPushButton(tr("Enter"), parent);
+    cnBtn = new QPushButton(tr("Cancel"), parent);
 #if MAIN_WIDGET_BTN_FIX_SIZE
     upBtn->setFixedSize(100,50);
     dnBtn->setFixedSize(100,50);
