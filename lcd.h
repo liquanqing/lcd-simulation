@@ -20,6 +20,9 @@ public:
     explicit lcd(QWidget *parent = 0);
     void clear(void);
     void draw_pix(int xpos, int ypos, int color);
+    void draw_line(int x0, int y0, int x1, int y1, int color);
+    void draw_rect(int x, int y, int width, int height, int color);
+    void draw_circle(int x, int y, int r, int color);
     void lcd_draw_bitmap(const unsigned char *pbitmap,
                          int xpos,
                          int ypos,
