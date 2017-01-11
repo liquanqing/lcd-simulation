@@ -9,6 +9,7 @@
 
 lcd::lcd(QWidget *parent) : QWidget(parent)
 {
+    int i;
     setFixedSize(LCD_X_SIZE * LCD_PIX_ZOOM_IN + 1, LCD_Y_SIZE * LCD_PIX_ZOOM_IN + 1);
 }
 
@@ -127,6 +128,10 @@ void lcd::draw_rect(int x, int y, int width, int height, int color)
 void lcd::draw_circle(int x, int y, int r, int color)
 {
 
+}
+
+void lcd::draw_circle_plot(int xc, int xy, int x, int y)
+{
 }
 
 void lcd::paintEvent(QPaintEvent *e)
