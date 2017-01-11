@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     Qt::WindowFlags flags = 0;
     flags |= Qt::WindowFullscreenButtonHint;
     flags |= Qt::MSWindowsFixedSizeDialogHint;
-     MainWidget *mainWidget = new MainWidget(parent);
+    MainWidget *mainWidget = new MainWidget(parent);
     setWindowFlags(flags);
     setCentralWidget(mainWidget);
 

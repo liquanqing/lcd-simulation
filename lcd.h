@@ -18,21 +18,17 @@ class lcd : public QWidget
     Q_OBJECT
 public:
     explicit lcd(QWidget *parent = 0);
+    ~lcd();
     void clear(void);
     void draw_pix(int xpos, int ypos, int color);
+    int  read_pix(int xpos, int ypos);
     void draw_line(int x0, int y0, int x1, int y1, int color);
-    void draw_rect(int x, int y, int width, int height, int color);
-    void draw_circle(int x, int y, int r, int color);
-    void lcd_draw_bitmap(const unsigned char *pbitmap,
-                         int xpos,
-                         int ypos,
-                         int bmap_width,
-                         int bmap_height);
-    void lcd_draw_text(int xpos,
-                       int ypos,
-                       const unsigned char *pstr);
+    void draw_rect(int x0, int y0, int width, int height, int color);
+    void draw_circle(int x0, int y0, int r, int color);
+    void draw_round_rect(int x0, int y0, int width, int height, int rad, int color);
+
 private:
-    quint8 lcd_buf[LCD_X_SIZE * LCD_Y_SIZE / 8];
+    quint8 *lcd_buf;
 signals:
 
 public slots:
