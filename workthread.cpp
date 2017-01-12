@@ -1,18 +1,12 @@
 #include "workthread.h"
 
-#include "bitmapbasiclcd.h"
-
-WorkThread::WorkThread(QObject *parent) : QObject(parent)
-, m_controller(NULL)
+WorkThread::WorkThread(PlatformSurface *surface, QObject *parent) : QObject(parent)
+, m_controller(surface)
 {
 }
 
-void WorkThread::initialize(PlatformSurface *surface)
+void WorkThread::initialize()
 {
-    if (m_controller) {
-        return;
-    }
-    m_controller = new(std::nothrow) BitmapBasicLCD(surface);
     moveToThread(&m_thread);
     m_thread.start();
 }
@@ -21,14 +15,11 @@ void WorkThread::finalize()
 {
     m_thread.quit();
     m_thread.wait();
-    delete m_controller;
-    m_controller = NULL;
 }
 
 void WorkThread::drawRectSlot()
 {
-    if (m_controller) {
-        m_controller->clear();
+    m_controller.clear();
 //        m_controller->draw_rect(0, 0, 128, 64, 1);
 //        //m_controller->draw_rect(1, 1, 126, 62, 1);
 //        m_controller->draw_rect(2, 2, 124, 60, 1);
@@ -61,6 +52,5 @@ void WorkThread::drawRectSlot()
 //        //m_controller->draw_rect(29, 29,  70, 6, 1);
 //        m_controller->draw_rect(30, 30,  68, 4, 1);
 //        //m_controller->draw_rect(31, 31,  66, 2, 1);
-    }
 }
 

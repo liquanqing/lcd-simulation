@@ -4,15 +4,16 @@
 #include <QObject>
 #include <QThread>
 
+#include "bitmapbasiclcd.h"
+
 class PlatformSurface;
-class BitmapBasicLCD;
 
 class WorkThread : public QObject
 {
     Q_OBJECT
 public:
-    explicit WorkThread(QObject *parent = 0);
-    void initialize(PlatformSurface *surface);
+    explicit WorkThread(PlatformSurface *surface, QObject *parent = 0);
+    void initialize();
     void finalize();
 
 signals:
@@ -22,7 +23,7 @@ public slots:
 
 private:
     QThread m_thread;
-    BitmapBasicLCD *m_controller;
+    BitmapBasicLCD m_controller;
 };
 
 #endif // WORKTHREAD_H
