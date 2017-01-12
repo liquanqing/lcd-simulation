@@ -6,6 +6,7 @@
 #define ABS(A)      ((A > 0) ? A : (-A))
 #define MAX(A,B)    ((A >= B) ? A : B)
 #define MIN(A,B)    ((A <= B) ? A : B)
+#define UNUSED(A)   do{(void)(A);}while(0)
 
 lcd::lcd(QWidget *parent) : QWidget(parent)
 {
@@ -29,16 +30,16 @@ void lcd::clear(void)
 void lcd::draw_pix(int xpos, int ypos, int color)
 {
     int page, page_bit;
-    if ((xpos < 0) || (ypos < 0)) {
+
+    if ((xpos < 0) ||
+        (ypos < 0) ||
+        (xpos >= LCD_X_SIZE) ||
+        (ypos >= LCD_Y_SIZE)) {
         return;
     }
 
-    if (xpos >= LCD_X_SIZE) {
-        xpos = LCD_X_SIZE - 1;
-    }
-
-    if (ypos >= LCD_Y_SIZE) {
-        xpos = LCD_Y_SIZE - 1;
+    if (NULL == lcd_buf) {
+        return ;
     }
 
     page = ypos / LCD_PAGE_SIZE;
@@ -55,16 +56,15 @@ int lcd::read_pix(int xpos, int ypos)
 {
     int page, page_bit;
 
-    if ((xpos < 0) || (ypos < 0)) {
+    if ((xpos < 0) ||
+        (ypos < 0) ||
+        (xpos >= LCD_X_SIZE) ||
+        (ypos >= LCD_Y_SIZE)) {
         return 0;
     }
 
-    if (xpos >= LCD_X_SIZE) {
-        xpos = LCD_X_SIZE - 1;
-    }
-
-    if (ypos >= LCD_Y_SIZE) {
-        xpos = LCD_Y_SIZE - 1;
+    if (NULL == lcd_buf) {
+        return 0;
     }
 
     page = ypos / LCD_PAGE_SIZE;
@@ -223,6 +223,7 @@ void lcd::draw_round_rect(int x0, int y0, int width, int height, int rad, int co
 
 void lcd::paintEvent(QPaintEvent *e)
 {
+    UNUSED(e);
     QPainter painter(this);
     painter.fillRect(QRect(0, 0, LCD_X_SIZE * LCD_PIX_ZOOM_IN + 1, LCD_Y_SIZE * LCD_PIX_ZOOM_IN + 1),
                      QBrush(Qt::blue));
