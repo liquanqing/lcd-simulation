@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
-#include "drawwidget.h"
 #include "mainwidget.h"
 
 class MainWindow : public QMainWindow
@@ -15,7 +14,6 @@ public:
     ~MainWindow();
 
 private:
-    //MainWidget *mainWidget;
 };
 
 #endif // MAINWINDOW_H
