@@ -1,46 +1,27 @@
-#include "lcd.h"
-#include <QPainter>
-#include <QPalette>
-#include <QDebug>
+#include "bitmapbasiclcd.h"
 
-#define ABS(A)      ((A > 0) ? A : (-A))
-#define MAX(A,B)    ((A >= B) ? A : B)
-#define MIN(A,B)    ((A <= B) ? A : B)
+#include <string.h>
 
-lcd::lcd(QWidget *parent) : QWidget(parent)
+#include "platformsurface.h"
+
+BitmapBasicLCD::BitmapBasicLCD(PlatformSurface *surface)
 {
-    setFixedSize(LCD_X_SIZE * LCD_PIX_ZOOM_IN + 1, LCD_Y_SIZE * LCD_PIX_ZOOM_IN + 1);
+    m_surface = surface;
 }
 
-void lcd::clear(void)
+void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0, sizeof(lcd_buf));
-    this->update();
+    memset(lcd_buf, 0xaa, sizeof(lcd_buf));
+    m_surface->surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
+    m_surface->surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
 
-void lcd::draw_pix(int xpos, int ypos, int color)
+void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
 {
-    quint8 page, page_bit;
-
-    if (xpos >= LCD_X_SIZE) {
-        xpos = LCD_X_SIZE - 1;
-    }
-
-    if (ypos >= LCD_Y_SIZE) {
-        xpos = LCD_Y_SIZE - 1;
-    }
-
-    page = ypos / LCD_PAGE_SIZE;
-    page_bit = ypos % LCD_PAGE_SIZE;
-
-    if (color) {
-        lcd_buf[xpos + (LCD_X_SIZE * page)] |= 1 << page_bit;
-    } else {
-        lcd_buf[xpos + (LCD_X_SIZE * page)] &= ~(1 << page_bit);
-    }
+    lcd_buf[xpos + (LCD_X_SIZE * ypos)] = color;
 }
 
-void lcd::draw_line(int x0, int y0, int x1, int y1, int color)
+void BitmapBasicLCD::draw_line(int x0, int y0, int x1, int y1, int color)
 {
     int t, distance;
     int x_err = 0, y_err = 0;
@@ -90,7 +71,7 @@ void lcd::draw_line(int x0, int y0, int x1, int y1, int color)
             y_delta = -y_delta;
         }
 
-        distance = MAX(x_delta, y_delta);
+        distance = x_delta > y_delta ? x_delta:y_delta;
 
         for (t = 0; t <= distance; t++) {
             draw_pix(row, column, color);
@@ -111,7 +92,7 @@ void lcd::draw_line(int x0, int y0, int x1, int y1, int color)
     }
 }
 
-void lcd::draw_rect(int x, int y, int width, int height, int color)
+void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
 {
     int x0 = x;
     int y0 = y;
@@ -121,30 +102,5 @@ void lcd::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x1, y0, x1, y1, color);
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
-}
-
-void lcd::draw_circle(int x, int y, int r, int color)
-{
-
-}
-
-void lcd::paintEvent(QPaintEvent *e)
-{
-    QPainter painter(this);
-    painter.fillRect(QRect(0, 0, LCD_X_SIZE * LCD_PIX_ZOOM_IN + 1, LCD_Y_SIZE * LCD_PIX_ZOOM_IN + 1),
-                     QBrush(Qt::blue));
-    int x, y;
-
-    painter.setPen(Qt::blue);
-    painter.setBrush(QBrush(Qt::white));
-    for (x = 0; x < LCD_X_SIZE * LCD_Y_SIZE / LCD_PAGE_SIZE; x ++) {
-        for (y = 0; y < LCD_PAGE_SIZE; y++) {
-            if (lcd_buf[x] & (1<<y)) {
-                painter.drawRect((x % LCD_X_SIZE) * LCD_PIX_ZOOM_IN,
-                                 ((x / LCD_X_SIZE * LCD_PAGE_SIZE) + y) * LCD_PIX_ZOOM_IN,
-                                 LCD_PIX_ZOOM_IN,
-                                 LCD_PIX_ZOOM_IN);
-            }
-        }
-    }
+    m_surface->surfaceUpdated(lcd_buf, x, y, width, height);
 }

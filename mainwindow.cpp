@@ -1,18 +1,20 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-{
-    Qt::WindowFlags flags = 0;
-    flags |= Qt::WindowFullscreenButtonHint;
-    flags |= Qt::MSWindowsFixedSizeDialogHint;
-     MainWidget *mainWidget = new MainWidget(parent);
-    setWindowFlags(flags);
-    setCentralWidget(mainWidget);
+#include <QLayout>
 
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent)
+, m_painter(NULL)
+{
+    m_painter = new(std::nothrow) SurfaceWidget(&m_surface);
+    connect(this, SIGNAL(drawRectSignal()), &m_worker, SLOT(drawRectSlot()));
+    m_worker.initialize(&m_surface);
+    setCentralWidget(m_painter);
+    emit drawRectSignal();
 }
 
 MainWindow::~MainWindow()
 {
-
+    m_worker.finalize();
+    delete m_painter;
 }
