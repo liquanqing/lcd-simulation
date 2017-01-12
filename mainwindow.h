@@ -18,8 +18,8 @@ signals:
     void drawRectSignal();
 
 private:
-    SurfaceWidget *m_painter;
     HostPlatformSurface m_surface;
+    SurfaceWidget m_painter;
     WorkThread m_worker;
 };
 

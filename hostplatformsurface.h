@@ -3,16 +3,15 @@
 
 #include <QObject>
 #include <QRect>
+#include <QImage>
 
 #include "platformsurface.h"
-
-class QImage;
 
 class HostPlatformSurface : public QObject, public PlatformSurface
 {
     Q_OBJECT
 public:
-    explicit HostPlatformSurface(QObject *parent = 0);
+    explicit HostPlatformSurface(QImage::Format format, QObject *parent = 0);
     ~HostPlatformSurface();
     void surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height);
     void surfaceSizeChanged(int width, int height);
@@ -24,9 +23,11 @@ signals:
 public slots:
 
 private:
+    int bytesPerPixel();
     QImage *m_image;
     unsigned char *m_buffer;
     int m_width;
+    QImage::Format m_format;
 };
 
 #endif // HOSTPLATFORMSURFACE_H

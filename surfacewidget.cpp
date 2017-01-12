@@ -10,7 +10,6 @@ SurfaceWidget::SurfaceWidget(HostPlatformSurface *surface, QWidget *parent) : QW
 {
     connect(surface, SIGNAL(updateSignal(QImage*,QRect)), this, SLOT(updateSlot(QImage*,QRect)));
     connect(surface, SIGNAL(resizeSignal(int,int)), this, SLOT(resizeSlot(int,int)));
-    show();
 }
 
 void SurfaceWidget::updateSlot(QImage *image, const QRect &rect)
