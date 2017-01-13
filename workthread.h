@@ -12,7 +12,7 @@ class WorkThread : public QObject
 {
     Q_OBJECT
 public:
-    explicit WorkThread(PlatformSurface *surface, QObject *parent = 0);
+    explicit WorkThread(QObject *parent = 0);
     void initialize();
     void finalize();
 

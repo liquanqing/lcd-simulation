@@ -1,17 +1,15 @@
 #include "mainwindow.h"
 
-#include <QLayout>
+#include "hostplatformsurface.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
-, m_surface(QImage::Format_RGB16)
-, m_worker(&m_surface)
 {
     connect(this, SIGNAL(drawRectSignal()), &m_worker, SLOT(drawRectSlot()));
-    connect(&m_surface, SIGNAL(updateSignal(QImage*,QRect)), &m_painter, SLOT(updateSlot(QImage*,QRect)));
-    connect(&m_surface, SIGNAL(resizeSignal(int,int)), &m_painter, SLOT(resizeSlot(int,int)));
-    m_worker.initialize();
+    connect(&HostPlatformSurface::instance(), SIGNAL(updateSignal(QImage*,QRect)), &m_painter, SLOT(updateSlot(QImage*,QRect)));
+    connect(&HostPlatformSurface::instance(), SIGNAL(resizeSignal(int,int)), &m_painter, SLOT(resizeSlot(int,int)));
     setCentralWidget(&m_painter);
+    m_worker.initialize();
     emit drawRectSignal();
 }
 

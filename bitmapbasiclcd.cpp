@@ -3,17 +3,17 @@
 #include <string.h>
 
 #include "platformsurface.h"
+#include "hostplatformsurface.h"
 
-BitmapBasicLCD::BitmapBasicLCD(PlatformSurface *surface)
+BitmapBasicLCD::BitmapBasicLCD()
 {
-    m_surface = surface;
 }
 
 void BitmapBasicLCD::clear()
 {
     memset(lcd_buf, 0xaa, sizeof(lcd_buf));
-    m_surface->surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
-    m_surface->surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
+    HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
+    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
@@ -102,5 +102,5 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x1, y0, x1, y1, color);
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
-    m_surface->surfaceUpdated(lcd_buf, x, y, width, height);
+    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, x, y, width, height);
 }

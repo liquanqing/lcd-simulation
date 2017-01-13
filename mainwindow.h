@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "surfacewidget.h"
 #include "workthread.h"
-#include "hostplatformsurface.h"
 
 class MainWindow : public QMainWindow
 {
@@ -18,7 +17,6 @@ signals:
     void drawRectSignal();
 
 private:
-    HostPlatformSurface m_surface;
     SurfaceWidget m_painter;
     WorkThread m_worker;
 };

@@ -1,7 +1,6 @@
 #include "workthread.h"
 
-WorkThread::WorkThread(PlatformSurface *surface, QObject *parent) : QObject(parent)
-, m_controller(surface)
+WorkThread::WorkThread(QObject *parent) : QObject(parent)
 {
 }
 

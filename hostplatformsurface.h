@@ -11,8 +11,7 @@ class HostPlatformSurface : public QObject, public PlatformSurface
 {
     Q_OBJECT
 public:
-    explicit HostPlatformSurface(QImage::Format format, QObject *parent = 0);
-    ~HostPlatformSurface();
+    static HostPlatformSurface &instance();
     void surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height);
     void surfaceSizeChanged(int width, int height);
 
@@ -23,6 +22,8 @@ signals:
 public slots:
 
 private:
+    explicit HostPlatformSurface(QImage::Format format, QObject *parent = 0);
+    ~HostPlatformSurface();
     int bytesPerPixel();
     QImage *m_image;
     unsigned char *m_buffer;

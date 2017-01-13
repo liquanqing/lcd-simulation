@@ -18,6 +18,12 @@ HostPlatformSurface::~HostPlatformSurface()
     delete [] m_buffer;
 }
 
+HostPlatformSurface &HostPlatformSurface::instance()
+{
+    static HostPlatformSurface in(QImage::Format_RGB16);
+    return in;
+}
+
 void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height)
 {
     int bpp = bytesPerPixel();
