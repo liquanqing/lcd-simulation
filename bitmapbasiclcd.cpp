@@ -11,7 +11,8 @@ BitmapBasicLCD::BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0xaa, sizeof(lcd_buf));
+    memset(lcd_buf, 0xaa, (LCD_X_SIZE * 2));
+    memset(lcd_buf + (LCD_X_SIZE * 2), 0x55, sizeof(lcd_buf) - (LCD_X_SIZE * 2));
     HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }

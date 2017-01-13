@@ -20,6 +20,7 @@ public slots:
 private:
     void paintEvent(QPaintEvent *event);
     QImage *m_image;
+    QPointF m_point;
 };
 
 #endif // SURFACEWIDGET_H
