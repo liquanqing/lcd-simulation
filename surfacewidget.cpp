@@ -6,18 +6,26 @@
 SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
 , m_image(NULL)
 {
-
+    setFixedSize(QSize(800, 480));
 }
 
-void SurfaceWidget::updateSlot(QImage *image, const QRect &rect)
+void SurfaceWidget::updateSlot(const QRect &rect)
 {
-    m_image = image;
     update(rect);
 }
 
-void SurfaceWidget::resizeSlot(int width, int height)
+void SurfaceWidget::resizeSlot(QImage *image)
 {
-    setFixedSize(QSize(width, height));
+    qreal ratio = 0;
+    if (image->height() < image->width()) {
+        ratio = image->width() / 800.0;
+    }
+    else {
+        ratio = image->height() / 480.0;
+    }
+    delete m_image;
+    m_image = new(std::nothrow) QImage(*image);
+    m_image->setDevicePixelRatio(ratio);
 }
 
 void SurfaceWidget::paintEvent(QPaintEvent *event)

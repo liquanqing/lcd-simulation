@@ -33,7 +33,7 @@ void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, 
         QRect source(0, 0, width, height);
         QImage image(fb, width, height, m_width * bpp, m_format);
         painter.drawImage(target, image, source);
-        emit updateSignal(m_image, QRect(x, y, width, height));
+        emit updateSignal(QRect(x, y, width, height));
     }
 }
 
@@ -46,7 +46,7 @@ void HostPlatformSurface::surfaceSizeChanged(int width, int height)
         m_buffer = new(std::nothrow) unsigned char[width * height * bpp];
         m_image = new(std::nothrow) QImage(m_buffer, width, height, width * bpp, m_format);
         m_width = width;
-        emit resizeSignal(width, height);
+        emit resizeSignal(m_image);
     }
 }
 

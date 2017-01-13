@@ -16,8 +16,8 @@ public:
     void surfaceSizeChanged(int width, int height);
 
 signals:
-    void updateSignal(QImage *image, const QRect &rect);
-    void resizeSignal(int width, int height);
+    void updateSignal(const QRect &rect);
+    void resizeSignal(QImage *image);
 
 public slots:
 

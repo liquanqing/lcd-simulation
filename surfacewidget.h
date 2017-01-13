@@ -14,8 +14,8 @@ public:
 signals:
 
 public slots:
-    void updateSlot(QImage *image, const QRect &rect);
-    void resizeSlot(int width, int height);
+    void updateSlot(const QRect &rect);
+    void resizeSlot(QImage *image);
 
 private:
     void paintEvent(QPaintEvent *event);
