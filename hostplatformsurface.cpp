@@ -25,7 +25,7 @@ void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, 
         QPainter painter(m_image);
         QRect target(x, y, width, height);
         QRect source(0, 0, width, height);
-        QImage image(fb, width, height, m_width * 2, m_format);
+        QImage image(fb, width, height, m_width * bpp, m_format);
         painter.drawImage(target, image, source);
         emit updateSignal(m_image, QRect(x, y, width, height));
     }

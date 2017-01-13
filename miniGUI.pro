@@ -12,12 +12,12 @@ TARGET = miniGUI
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
+SOURCES += main.cpp \
         mainwindow.cpp \
-    bitmapbasiclcd.cpp \
-    hostplatformsurface.cpp \
-    surfacewidget.cpp \
-    workthread.cpp
+        bitmapbasiclcd.cpp \
+        hostplatformsurface.cpp \
+        surfacewidget.cpp \
+        workthread.cpp
 
 HEADERS  += mainwindow.h \
     platformsurface.h \

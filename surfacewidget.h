@@ -3,14 +3,13 @@
 
 #include <QWidget>
 
-class HostPlatformSurface;
 class QImage;
 
 class SurfaceWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SurfaceWidget(HostPlatformSurface *surface, QWidget *parent = 0);
+    explicit SurfaceWidget(QWidget *parent = 0);
 
 signals:
 

@@ -1,15 +1,12 @@
 #include "surfacewidget.h"
 
-#include "hostplatformsurface.h"
-
 #include <QPainter>
 #include <QPaintEvent>
 
-SurfaceWidget::SurfaceWidget(HostPlatformSurface *surface, QWidget *parent) : QWidget(parent)
+SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
 , m_image(NULL)
 {
-    connect(surface, SIGNAL(updateSignal(QImage*,QRect)), this, SLOT(updateSlot(QImage*,QRect)));
-    connect(surface, SIGNAL(resizeSignal(int,int)), this, SLOT(resizeSlot(int,int)));
+
 }
 
 void SurfaceWidget::updateSlot(QImage *image, const QRect &rect)
