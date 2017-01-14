@@ -6,8 +6,6 @@
 
 #include "bitmapbasiclcd.h"
 
-class PlatformSurface;
-
 class WorkThread : public QObject
 {
     Q_OBJECT
