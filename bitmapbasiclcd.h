@@ -2,7 +2,7 @@
 #define BITMAPBASICLCD_H
 
 #define LCD_X_SIZE              80
-#define LCD_Y_SIZE              48
+#define LCD_Y_SIZE              40
 
 class PlatformSurface;
 

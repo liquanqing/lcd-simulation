@@ -3,10 +3,13 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#define WIDGET_WIDTH  800
+#define WIDGET_HEIGHT 480
+
 SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
 , m_image(NULL)
 {
-    setFixedSize(QSize(800, 480));
+    setFixedSize(QSize(WIDGET_WIDTH, WIDGET_HEIGHT));
 }
 
 void SurfaceWidget::updateSlot(const QRect &rect)
@@ -18,17 +21,17 @@ void SurfaceWidget::resizeSlot(QImage *image)
 {
     qreal ratio = 0;
     if (image->height() < image->width()) {
-        ratio = image->width() / 800.0;
+        ratio = image->width() / (qreal)WIDGET_WIDTH;
     }
     else {
-        ratio = image->height() / 480.0;
+        ratio = image->height() / (qreal)WIDGET_HEIGHT;
     }
-    if (image->height() / ratio < 480) {
+    if (WIDGET_HEIGHT * image->width() > WIDGET_WIDTH * image->height()) {
         m_point.setX(0);
-        m_point.setY(240 - image->height() / ratio / 2);
+        m_point.setY(WIDGET_HEIGHT / 2 - image->height() / ratio / 2);
     }
-    else if (image->width() / ratio < 800) {
-        m_point.setX(400 - image->width() / ratio / 2);
+    else if (WIDGET_HEIGHT * image->width() != WIDGET_WIDTH * image->height()) {
+        m_point.setX(WIDGET_WIDTH / 2 - image->width() / ratio / 2);
         m_point.setY(0);
     }
     else {
