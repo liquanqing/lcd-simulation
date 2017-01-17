@@ -12,6 +12,8 @@ public:
     BitmapBasicLCD();
     void clear(void);
     void draw_rect(int x, int y, int width, int height, int color);
+    void draw_circle(int x0, int y0, int r, int color);
+    void draw_round_rect(int x0, int y0, int width, int height, int rad, int color);
 private:
     void draw_pix(int xpos, int ypos, int color);
     void draw_line(int x0, int y0, int x1, int y1, int color);

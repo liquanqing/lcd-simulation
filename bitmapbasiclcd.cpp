@@ -129,3 +129,71 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
+
+void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
+{
+    int x = 0, y = r;
+    int delta = 1 - r;
+
+    while (y >= x) {
+        draw_pix(x + x0, y + y0, color);
+        draw_pix(y + x0, x + y0, color);
+        draw_pix(-x + x0, y + y0, color);
+        draw_pix(-y + x0, x + y0, color);
+
+        draw_pix(-x + x0, -y + y0, color);
+        draw_pix(-y + x0, -x + y0, color);
+        draw_pix(x + x0, -y + y0, color);
+        draw_pix(y + x0, -x + y0, color);
+
+        if (delta < 0) {
+            delta = delta + 4 * x + 6;
+        } else {
+            delta = delta + 4 * (x - y) + 10;
+            y --;
+        }
+
+        x ++;
+    }
+
+    HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
+    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
+}
+
+void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int rad, int color)
+{
+    int x = 0, y = rad;
+    int delta = 1 - rad;
+
+    draw_line(x0 + rad, y0, x0 + width - rad, y0, color);
+    draw_line(x0 + rad, y0 + height, x0 + width - rad, y0 + height, color);
+
+    draw_line(x0, y0 + rad, x0, y0 + height - rad, color);
+    draw_line(x0 + width, y0 + rad, x0 + width, y0 + height - rad, color);
+
+    while (y >= x) {
+        draw_pix(x + x0 + width - rad, y + y0 + height - rad, color);
+        draw_pix(y + x0 + width - rad, x + y0 + height - rad, color);
+
+        draw_pix(-x + x0 + rad, y + y0 + height - rad, color);
+        draw_pix(-y + x0 + rad, x + y0 + height - rad, color);
+
+        draw_pix(-x + x0 + rad, -y + y0 + rad, color);
+        draw_pix(-y + x0 + rad, -x + y0 + rad, color);
+
+        draw_pix(x + x0 + width - rad, -y + y0 + rad, color);
+        draw_pix(y + x0 + width - rad, -x + y0 + rad, color);
+
+        if (delta < 0) {
+            delta = delta + 4 * x + 6;
+        } else {
+            delta = delta + 4 * (x - y) + 10;
+            y --;
+        }
+
+        x ++;
+    }
+
+    HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
+    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
+}
