@@ -8,7 +8,12 @@
 BitmapBasicLCD::BitmapBasicLCD()
 {
     lcdBpp = HostPlatformSurface::instance().bitsPerPixel();
-    lcd_buf = new unsigned char[LCD_X_SIZE * LCD_Y_SIZE * lcdBpp];
+    lcd_buf = new(std::nothrow) unsigned char[LCD_X_SIZE * LCD_Y_SIZE * lcdBpp];
+}
+
+BitmapBasicLCD::~BitmapBasicLCD()
+{
+    delete lcd_buf;
 }
 
 void BitmapBasicLCD::clear()

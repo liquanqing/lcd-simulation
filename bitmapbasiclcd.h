@@ -10,6 +10,7 @@ class BitmapBasicLCD
 {
 public:
     BitmapBasicLCD();
+    ~BitmapBasicLCD();
     void clear(void);
     void draw_rect(int x, int y, int width, int height, int color);
     void draw_circle(int x0, int y0, int r, int color);
