@@ -26,7 +26,7 @@ HostPlatformSurface &HostPlatformSurface::instance()
 
 void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height)
 {
-    int bpp = bytesPerPixel();
+    int bpp = bitsPerPixel();
     if (bpp && m_image) {
         QPainter painter(m_image);
         QRect target(x, y, width, height);
@@ -39,7 +39,7 @@ void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, 
 
 void HostPlatformSurface::surfaceSizeChanged(int width, int height)
 {
-    int bpp = bytesPerPixel();
+    int bpp = bitsPerPixel();
     if (bpp) {
         delete m_image;
         delete [] m_buffer;
@@ -50,7 +50,7 @@ void HostPlatformSurface::surfaceSizeChanged(int width, int height)
     }
 }
 
-int HostPlatformSurface::bytesPerPixel()
+int HostPlatformSurface::bitsPerPixel()
 {
     int ret = 0;
     switch (m_format) {
@@ -58,7 +58,7 @@ int HostPlatformSurface::bytesPerPixel()
         ret = 2;
         break;
     case QImage::Format_RGB888:
-        ret = 3;
+        ret = 4;
         break;
     default:
         break;

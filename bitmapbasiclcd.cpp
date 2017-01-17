@@ -7,19 +7,41 @@
 
 BitmapBasicLCD::BitmapBasicLCD()
 {
+    lcdBpp = HostPlatformSurface::instance().bitsPerPixel();
+    lcd_buf = new unsigned char[LCD_X_SIZE * LCD_Y_SIZE * lcdBpp];
 }
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0xaa, (LCD_X_SIZE * 2));
-    memset(lcd_buf + (LCD_X_SIZE * 2), 0x55, sizeof(lcd_buf) - (LCD_X_SIZE * 2));
+    memset(lcd_buf, 0x55, LCD_X_SIZE * LCD_Y_SIZE * lcdBpp);
     HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
 {
-    lcd_buf[xpos + (LCD_X_SIZE * ypos)] = color;
+    if ((xpos > LCD_X_SIZE) || (ypos > LCD_Y_SIZE)) {
+            return;
+        }
+
+        switch(lcdBpp) {
+        case 1:
+            lcd_buf[xpos + (LCD_X_SIZE * ypos)] = color;
+            break;
+        case 2:
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp] = (color & 0xFF00) >> 8;
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp] = color & 0xFF;
+            break;
+        case 4:
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp + 0] = color & 0xFF;
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp + 2] = (color & 0xFF0000) >> 16;
+            lcd_buf[(xpos + LCD_X_SIZE * ypos) * lcdBpp + 3] = (color & 0xFF000000) >> 24;
+            break;
+        default:
+            lcd_buf[xpos + (LCD_X_SIZE * ypos)] = color;
+            break;
+        }
 }
 
 void BitmapBasicLCD::draw_line(int x0, int y0, int x1, int y1, int color)

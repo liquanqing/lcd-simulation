@@ -15,7 +15,8 @@ public:
 private:
     void draw_pix(int xpos, int ypos, int color);
     void draw_line(int x0, int y0, int x1, int y1, int color);
-    unsigned char lcd_buf[LCD_X_SIZE * LCD_Y_SIZE * 2];
+    int lcdBpp;
+    unsigned char *lcd_buf;
 };
 
 #endif // BITMAPBASICLCD_H
