@@ -1,8 +1,8 @@
 #ifndef BITMAPBASICLCD_H
 #define BITMAPBASICLCD_H
 
-#define LCD_X_SIZE              80
-#define LCD_Y_SIZE              40
+#define LCD_X_SIZE              128
+#define LCD_Y_SIZE              64
 
 class PlatformSurface;
 

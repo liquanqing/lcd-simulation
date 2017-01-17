@@ -13,7 +13,7 @@ BitmapBasicLCD::BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0x55, LCD_X_SIZE * LCD_Y_SIZE * lcdBpp);
+    memset(lcd_buf, 0, LCD_X_SIZE * LCD_Y_SIZE * lcdBpp);
     HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
@@ -125,5 +125,7 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x1, y0, x1, y1, color);
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
-    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, x, y, width, height);
+    //HostPlatformSurface::instance().surfaceUpdated(lcd_buf, x, y, width, height);
+    HostPlatformSurface::instance().surfaceSizeChanged(LCD_X_SIZE, LCD_Y_SIZE);
+    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, LCD_X_SIZE, LCD_Y_SIZE);
 }
