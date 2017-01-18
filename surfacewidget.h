@@ -14,13 +14,14 @@ public:
 signals:
 
 public slots:
-    void updateSlot(const QRect &rect);
-    void resizeSlot(QImage *image);
+    void updateSlot(QImage image, const QRect &rect);
+    void resizeSlot(QImage image);
 
 private:
     void paintEvent(QPaintEvent *event);
-    QImage *m_image;
+    QImage m_image;
     QPointF m_point;
+    qreal m_ratio;
 };
 
 #endif // SURFACEWIDGET_H

@@ -17,16 +17,14 @@ public:
     int bitsPerPixel();
 
 signals:
-    void updateSignal(const QRect &rect);
-    void resizeSignal(QImage *image);
+    void updateSignal(QImage image, const QRect &rect);
+    void resizeSignal(QImage image);
 
 public slots:
 
 private:
     explicit HostPlatformSurface(QImage::Format format, QObject *parent = 0);
-    ~HostPlatformSurface();
-    QImage *m_image;
-    unsigned char *m_buffer;
+    QImage m_image;
     int m_width;
     QImage::Format m_format;
 };

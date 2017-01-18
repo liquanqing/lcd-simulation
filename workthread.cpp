@@ -19,9 +19,9 @@ void WorkThread::finalize()
 void WorkThread::drawRectSlot()
 {
     m_controller.clear();
-    //m_controller.draw_rect(0, 0, 128, 64, 0xFF);
+    m_controller.draw_rect(0, 0, 128, 64, 0xFF);
     m_controller.draw_circle(50, 30, 30, 0xFF);
-    //m_controller.draw_round_rect(3, 3, 20, 10, 3, 0xFF);
+    m_controller.draw_round_rect(3, 3, 20, 10, 3, 0xFF);
 //        //m_controller->draw_rect(1, 1, 126, 62, 1);
 //        m_controller->draw_rect(2, 2, 124, 60, 1);
 //        //m_controller->draw_rect(3, 3, 122, 58, 1);

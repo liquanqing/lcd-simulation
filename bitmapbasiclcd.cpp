@@ -20,9 +20,8 @@ BitmapBasicLCD::~BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0, lcdXSize * lcdYSize * lcdBpp);
+    memset(lcd_buf, 0x00, lcdXSize * lcdYSize * lcdBpp);
     HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
-    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
@@ -41,7 +40,7 @@ void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
             break;
         case 2:
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = (color & 0xFF00) >> 8;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = color & 0xFF;
+            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = color & 0xFF;
             break;
         case 4:
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] = color & 0xFF;
@@ -171,7 +170,6 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
 
-    HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
@@ -201,7 +199,6 @@ void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
         x ++;
     }
 
-    HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
@@ -239,6 +236,5 @@ void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int 
         x ++;
     }
 
-    HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
