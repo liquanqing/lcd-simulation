@@ -27,6 +27,10 @@ void BitmapBasicLCD::clear()
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
 {
+    if (NULL == lcd_buf) {
+        return;
+    }
+
     if ((xpos > lcdXSize) || (ypos > lcdYSize)) {
             return;
         }
@@ -49,6 +53,40 @@ void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
             lcd_buf[xpos + (lcdXSize * ypos)] = color;
             break;
         }
+}
+
+int BitmapBasicLCD::read_pix(int xpos, int ypos)
+{
+    if (NULL == lcd_buf) {
+        return 0;
+    }
+
+    if ((xpos >= lcdXSize) || (ypos >= lcdYSize)) {
+        return 0;
+    }
+
+    int color = 0;
+
+    switch(lcdBpp) {
+    case 1:
+        color = lcd_buf[xpos + (lcdXSize * ypos)];
+        break;
+    case 2:
+        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] << 8;
+        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1];
+        break;
+    case 4:
+        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 3] << 24;
+        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] << 16;
+        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] << 8;
+        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] << 0;
+        break;
+    default:
+        color = lcd_buf[xpos + (lcdXSize * ypos)];
+        break;
+    }
+
+    return color;
 }
 
 void BitmapBasicLCD::draw_line(int x0, int y0, int x1, int y1, int color)
@@ -132,7 +170,7 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x1, y0, x1, y1, color);
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
-    //HostPlatformSurface::instance().surfaceUpdated(lcd_buf, x, y, width, height);
+
     HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
     HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
