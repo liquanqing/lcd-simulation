@@ -18,20 +18,20 @@ void SurfaceWidget::updateSlot(QImage image, const QRect &rect)
     update(rect);
 }
 
-void SurfaceWidget::resizeSlot(QImage image)
+void SurfaceWidget::resizeSlot(int width, int height)
 {
-    if (image.height() < image.width()) {
-        m_ratio = image.width() / (qreal)WIDGET_WIDTH;
+    if (height < width) {
+        m_ratio = width / (qreal)WIDGET_WIDTH;
     }
     else {
-        m_ratio = image.height() / (qreal)WIDGET_HEIGHT;
+        m_ratio = height / (qreal)WIDGET_HEIGHT;
     }
-    if (WIDGET_HEIGHT * image.width() > WIDGET_WIDTH * image.height()) {
+    if (WIDGET_HEIGHT * width > WIDGET_WIDTH * height) {
         m_point.setX(0);
-        m_point.setY(WIDGET_HEIGHT / 2 - image.height() / m_ratio / 2);
+        m_point.setY(WIDGET_HEIGHT / 2 - height / m_ratio / 2);
     }
-    else if (WIDGET_HEIGHT * image.width() != WIDGET_WIDTH * image.height()) {
-        m_point.setX(WIDGET_WIDTH / 2 - image.width() / m_ratio / 2);
+    else if (WIDGET_HEIGHT * width != WIDGET_WIDTH * height) {
+        m_point.setX(WIDGET_WIDTH / 2 - width / m_ratio / 2);
         m_point.setY(0);
     }
     else {

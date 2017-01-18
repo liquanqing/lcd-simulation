@@ -18,7 +18,7 @@ public:
 
 signals:
     void updateSignal(QImage image, const QRect &rect);
-    void resizeSignal(QImage image);
+    void resizeSignal(int width, int height);
 
 public slots:
 

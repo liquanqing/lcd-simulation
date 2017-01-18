@@ -35,7 +35,7 @@ void HostPlatformSurface::surfaceSizeChanged(int width, int height)
     if (bpp) {
         m_image = QImage(width, height, m_format);
         m_width = width;
-        emit resizeSignal(m_image);
+        emit resizeSignal(width, height);
     }
 }
 
