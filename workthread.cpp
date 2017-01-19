@@ -40,7 +40,8 @@ void WorkThread::drawRectSlot()
 {
     m_controller->clear();
     m_controller->draw_rect(0, 0, 128, 64, RGB888(0,0,255));
-    m_controller->draw_circle(50, 30, 30, RGB888(255,0,0));
-    m_controller->draw_round_rect(3, 3, 20, 10, 3, RGB888(0,255,0));
+    m_controller->draw_circle(50, 32, 30, RGB888(255,0,0));
+    m_controller->draw_round_rect(3, 3, 20, 10, 5, RGB888(255,255,255));
+    m_controller->update();
 }
 

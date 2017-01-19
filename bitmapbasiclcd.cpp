@@ -21,8 +21,13 @@ BitmapBasicLCD::~BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0xFF, lcdXSize * lcdYSize * lcdBpp);
+    memset(lcd_buf, 0, lcdXSize * lcdYSize * lcdBpp);
     m_surface->surfaceSizeChanged(lcdXSize, lcdYSize);
+}
+
+void BitmapBasicLCD::update()
+{
+    m_surface->surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
@@ -32,26 +37,26 @@ void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
     }
 
     if ((xpos > lcdXSize) || (ypos > lcdYSize)) {
-            return;
-        }
+        return;
+    }
 
-        switch(lcdBpp) {
-        case 1:
-            lcd_buf[xpos + (lcdXSize * ypos)] = (unsigned char)color;
-            break;
-        case 2:
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = color & 0xFF;
-            break;
-        case 3:
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] = color & 0xFF;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] = (color & 0xFF0000) >> 16;
-            break;
-        default:
-            lcd_buf[xpos + (lcdXSize * ypos)] = color;
-            break;
-        }
+    switch(lcdBpp) {
+    case 1:
+        lcd_buf[xpos + (lcdXSize * ypos)] = (unsigned char)color;
+        break;
+    case 2:
+        lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
+        lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = color & 0xFF;
+        break;
+    case 3:
+        lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] = color & 0xFF;
+        lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
+        lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] = (color & 0xFF0000) >> 16;
+        break;
+    default:
+        lcd_buf[xpos + (lcdXSize * ypos)] = color;
+        break;
+    }
 }
 
 int BitmapBasicLCD::read_pix(int xpos, int ypos)
@@ -71,12 +76,11 @@ int BitmapBasicLCD::read_pix(int xpos, int ypos)
         color = lcd_buf[xpos + (lcdXSize * ypos)];
         break;
     case 2:
-        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] << 8;
-        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1];
+        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] << 8;
+        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp];
         break;
     case 4:
-        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 3] << 24;
-        color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] << 16;
+        color = lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] << 16;
         color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] << 8;
         color |= lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] << 0;
         break;
@@ -169,8 +173,6 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x1, y0, x1, y1, color);
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
-
-    m_surface->surfaceUpdated(lcd_buf, x, y, width, height);
 }
 
 void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
@@ -198,8 +200,6 @@ void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
 
         x ++;
     }
-
-    m_surface->surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int rad, int color)
@@ -235,6 +235,4 @@ void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int 
 
         x ++;
     }
-
-    m_surface->surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }

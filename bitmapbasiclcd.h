@@ -12,6 +12,7 @@ public:
     BitmapBasicLCD(PlatformSurface *surface, int width, int height, int bpp);
     ~BitmapBasicLCD();
     void clear(void);
+    void update(void);
     void draw_pix(int xpos, int ypos, int color);
     int read_pix(int xpos, int ypos);
     void draw_line(int x0, int y0, int x1, int y1, int color);
