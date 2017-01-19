@@ -3,6 +3,8 @@
 
 class PlatformSurface;
 
+#define RGB(R,G,B)  ((R>>3)|((G&0xFC)<<5)|((B&0xF8)<<11))
+
 class BitmapBasicLCD
 {
 public:

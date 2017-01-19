@@ -40,8 +40,8 @@ void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
             lcd_buf[xpos + (lcdXSize * ypos)] = (unsigned char)color;
             break;
         case 2:
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = (color & 0xFF00) >> 8;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = color & 0xFF;
+            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
+            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = color & 0xFF;
             break;
         case 4:
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] = color & 0xFF;
