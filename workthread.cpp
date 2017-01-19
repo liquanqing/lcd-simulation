@@ -19,8 +19,11 @@ WorkThread::~WorkThread()
 
 void WorkThread::initialize()
 {
-    HostPlatformSurface::instance()->setColorFormat(COLOR_FORMAT_RGB16);
-    m_controller = new(std::nothrow) BitmapBasicLCD(HostPlatformSurface::instance(), LCD_WIDTH, LCD_HEIGHT, bitsPerPixel(COLOR_FORMAT_RGB16));
+    HostPlatformSurface::instance()->setColorFormat(COLOR_FORMAT_RGB888);
+    m_controller = new(std::nothrow) BitmapBasicLCD(HostPlatformSurface::instance(),
+                                                    LCD_WIDTH,
+                                                    LCD_HEIGHT,
+                                                    bitsPerPixel(COLOR_FORMAT_RGB888));
     moveToThread(&m_thread);
     m_thread.start();
 }
@@ -36,8 +39,8 @@ void WorkThread::finalize()
 void WorkThread::drawRectSlot()
 {
     m_controller->clear();
-    m_controller->draw_rect(0, 0, 128, 64, RGB(0,0,255));
-    m_controller->draw_circle(50, 30, 30, RGB(255,0,0));
-    m_controller->draw_round_rect(3, 3, 20, 10, 3, RGB(255,0,0));
+    m_controller->draw_rect(0, 0, 128, 64, RGB888(0,0,255));
+    m_controller->draw_circle(50, 30, 30, RGB888(255,0,0));
+    m_controller->draw_round_rect(3, 3, 20, 10, 3, RGB888(0,255,0));
 }
 

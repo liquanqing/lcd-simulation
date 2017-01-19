@@ -2,13 +2,13 @@
 
 int bitsPerPixel(ColorFormat format)
 {
-    int ret = 0;
+    int ret = 1;
     switch (format) {
     case COLOR_FORMAT_RGB16:
         ret = 2;
         break;
     case COLOR_FORMAT_RGB888:
-        ret = 4;
+        ret = 3;
         break;
     default:
         break;

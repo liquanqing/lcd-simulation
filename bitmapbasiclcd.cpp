@@ -21,7 +21,7 @@ BitmapBasicLCD::~BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0x00, lcdXSize * lcdYSize * lcdBpp);
+    memset(lcd_buf, 0xFF, lcdXSize * lcdYSize * lcdBpp);
     m_surface->surfaceSizeChanged(lcdXSize, lcdYSize);
 }
 
@@ -43,11 +43,10 @@ void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp] = color & 0xFF;
             break;
-        case 4:
+        case 3:
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 0] = color & 0xFF;
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 1] = (color & 0xFF00) >> 8;
             lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 2] = (color & 0xFF0000) >> 16;
-            lcd_buf[(xpos + lcdXSize * ypos) * lcdBpp + 3] = (color & 0xFF000000) >> 24;
             break;
         default:
             lcd_buf[xpos + (lcdXSize * ypos)] = color;
