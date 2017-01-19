@@ -12,6 +12,7 @@ BitmapBasicLCD::BitmapBasicLCD(PlatformSurface *surface, int width, int height, 
     ,m_surface(surface)
 {
     lcd_buf = new(std::nothrow) unsigned char[lcdXSize * lcdYSize * lcdBpp];
+    m_surface->surfaceSizeChanged(lcdXSize, lcdYSize);
 }
 
 BitmapBasicLCD::~BitmapBasicLCD()
@@ -22,7 +23,6 @@ BitmapBasicLCD::~BitmapBasicLCD()
 void BitmapBasicLCD::clear()
 {
     memset(lcd_buf, 0, lcdXSize * lcdYSize * lcdBpp);
-    m_surface->surfaceSizeChanged(lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::update()
