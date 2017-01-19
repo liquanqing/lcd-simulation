@@ -6,7 +6,7 @@ class PlatformSurface;
 class BitmapBasicLCD
 {
 public:
-    BitmapBasicLCD();
+    BitmapBasicLCD(PlatformSurface *surface, int width, int height, int bpp);
     ~BitmapBasicLCD();
     void clear(void);
     void draw_pix(int xpos, int ypos, int color);
@@ -20,6 +20,7 @@ private:
     int lcdXSize;
     int lcdYSize;
     unsigned char *lcd_buf;
+    PlatformSurface *m_surface;
 };
 
 #endif // BITMAPBASICLCD_H

@@ -17,11 +17,13 @@ SOURCES += main.cpp \
         bitmapbasiclcd.cpp \
         hostplatformsurface.cpp \
         surfacewidget.cpp \
-        workthread.cpp
+        workthread.cpp \
+        utils.cpp
 
 HEADERS  += mainwindow.h \
     platformsurface.h \
     bitmapbasiclcd.h \
     hostplatformsurface.h \
     surfacewidget.h \
-    workthread.h
+    workthread.h \
+    utils.h

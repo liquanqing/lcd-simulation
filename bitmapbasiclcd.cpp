@@ -1,15 +1,16 @@
 #include "bitmapbasiclcd.h"
 
 #include <string.h>
+#include <new>
 
 #include "platformsurface.h"
-#include "hostplatformsurface.h"
 
-BitmapBasicLCD::BitmapBasicLCD()
-    :lcdXSize(128)
-    ,lcdYSize(64)
+BitmapBasicLCD::BitmapBasicLCD(PlatformSurface *surface, int width, int height, int bpp)
+    :lcdBpp(bpp)
+    ,lcdXSize(width)
+    ,lcdYSize(height)
+    ,m_surface(surface)
 {
-    lcdBpp = HostPlatformSurface::instance().bitsPerPixel();
     lcd_buf = new(std::nothrow) unsigned char[lcdXSize * lcdYSize * lcdBpp];
 }
 
@@ -21,7 +22,7 @@ BitmapBasicLCD::~BitmapBasicLCD()
 void BitmapBasicLCD::clear()
 {
     memset(lcd_buf, 0x00, lcdXSize * lcdYSize * lcdBpp);
-    HostPlatformSurface::instance().surfaceSizeChanged(lcdXSize, lcdYSize);
+    m_surface->surfaceSizeChanged(lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::draw_pix(int xpos, int ypos, int color)
@@ -170,7 +171,7 @@ void BitmapBasicLCD::draw_rect(int x, int y, int width, int height, int color)
     draw_line(x0, y0, x1, y0, color);
     draw_line(x0, y1, x1, y1, color);
 
-    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
+    m_surface->surfaceUpdated(lcd_buf, x, y, width, height);
 }
 
 void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
@@ -199,7 +200,7 @@ void BitmapBasicLCD::draw_circle(int x0, int y0, int r, int color)
         x ++;
     }
 
-    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
+    m_surface->surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }
 
 void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int rad, int color)
@@ -236,5 +237,5 @@ void BitmapBasicLCD::draw_round_rect(int x0, int y0, int width, int height, int 
         x ++;
     }
 
-    HostPlatformSurface::instance().surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
+    m_surface->surfaceUpdated(lcd_buf, 0, 0, lcdXSize, lcdYSize);
 }

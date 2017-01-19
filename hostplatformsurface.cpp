@@ -1,24 +1,29 @@
 #include "hostplatformsurface.h"
 
+#include "utils.h"
+
 #include <QImage>
 #include <QPainter>
 
-HostPlatformSurface::HostPlatformSurface(QImage::Format format, QObject *parent) : QObject(parent)
+HostPlatformSurface::HostPlatformSurface(QObject *parent) : QObject(parent)
 , m_width(0)
-, m_format(format)
 {
-
 }
 
-HostPlatformSurface &HostPlatformSurface::instance()
+PlatformSurface *HostPlatformSurface::instance()
 {
-    static HostPlatformSurface in(QImage::Format_RGB16);
-    return in;
+    static HostPlatformSurface in;
+    return &in;
+}
+
+void HostPlatformSurface::setColorFormat(QImage::Format format)
+{
+    m_format = format;
 }
 
 void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height)
 {
-    int bpp = bitsPerPixel();
+    int bpp = bitsPerPixel(m_format);
     if (bpp && !m_image.isNull()) {
         QPainter painter(&m_image);
         QRect target(x, y, width, height);
@@ -31,27 +36,11 @@ void HostPlatformSurface::surfaceUpdated(const unsigned char *fb, int x, int y, 
 
 void HostPlatformSurface::surfaceSizeChanged(int width, int height)
 {
-    int bpp = bitsPerPixel();
+    int bpp = bitsPerPixel(m_format);
     if (bpp) {
         m_image = QImage(width, height, m_format);
         m_width = width;
         emit resizeSignal(width, height);
     }
-}
-
-int HostPlatformSurface::bitsPerPixel()
-{
-    int ret = 0;
-    switch (m_format) {
-    case QImage::Format_RGB16:
-        ret = 2;
-        break;
-    case QImage::Format_RGB888:
-        ret = 4;
-        break;
-    default:
-        break;
-    }
-    return ret;
 }
 

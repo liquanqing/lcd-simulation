@@ -4,13 +4,14 @@
 #include <QObject>
 #include <QThread>
 
-#include "bitmapbasiclcd.h"
+class BitmapBasicLCD;
 
 class WorkThread : public QObject
 {
     Q_OBJECT
 public:
     explicit WorkThread(QObject *parent = 0);
+    ~WorkThread();
     void initialize();
     void finalize();
 
@@ -21,7 +22,7 @@ public slots:
 
 private:
     QThread m_thread;
-    BitmapBasicLCD m_controller;
+    BitmapBasicLCD *m_controller;
 };
 
 #endif // WORKTHREAD_H
