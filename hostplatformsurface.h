@@ -12,7 +12,7 @@ class HostPlatformSurface : public QObject, public PlatformSurface
     Q_OBJECT
 public:
     static PlatformSurface *instance();
-    void setColorFormat(QImage::Format format);
+    void setColorFormat(ColorFormat format);
     void surfaceUpdated(const unsigned char *fb, int x, int y, int width, int height);
     void surfaceSizeChanged(int width, int height);
 
@@ -24,9 +24,10 @@ public slots:
 
 private:
     explicit HostPlatformSurface(QObject *parent = 0);
+    QImage::Format colorFormatConvert(ColorFormat format);
     QImage m_image;
     int m_width;
-    QImage::Format m_format;
+    ColorFormat m_format;
 };
 
 #endif // HOSTPLATFORMSURFACE_H

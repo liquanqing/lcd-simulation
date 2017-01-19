@@ -19,9 +19,8 @@ WorkThread::~WorkThread()
 
 void WorkThread::initialize()
 {
-    HostPlatformSurface *surface = dynamic_cast<HostPlatformSurface *>(HostPlatformSurface::instance());
-    surface->setColorFormat(QImage::Format_RGB16);
-    m_controller = new(std::nothrow) BitmapBasicLCD(surface, LCD_WIDTH, LCD_HEIGHT, bitsPerPixel(QImage::Format_RGB16));
+    HostPlatformSurface::instance()->setColorFormat(COLOR_FORMAT_RGB16);
+    m_controller = new(std::nothrow) BitmapBasicLCD(HostPlatformSurface::instance(), LCD_WIDTH, LCD_HEIGHT, bitsPerPixel(COLOR_FORMAT_RGB16));
     moveToThread(&m_thread);
     m_thread.start();
 }

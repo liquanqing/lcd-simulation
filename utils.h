@@ -1,8 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <QImage>
+#include "platformsurface.h"
 
-extern int bitsPerPixel(QImage::Format format);
+extern int bitsPerPixel(ColorFormat format);
 
 #endif // UTILS_H
