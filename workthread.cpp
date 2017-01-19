@@ -46,3 +46,11 @@ void WorkThread::drawRectSlot()
     m_controller->update();
 }
 
+void WorkThread::pointerEventSlot(int x, int y, int b)
+{
+    if (b) {
+        m_controller->draw_pix(x, y, RGB888(255, 255, 255));
+        m_controller->update();
+    }
+}
+

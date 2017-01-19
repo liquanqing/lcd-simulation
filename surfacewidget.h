@@ -12,6 +12,7 @@ public:
     explicit SurfaceWidget(QWidget *parent = 0);
 
 signals:
+    void pointerEventSignal(int x, int y, int b);
 
 public slots:
     void updateSlot(QImage image, const QRect &rect);
@@ -19,6 +20,9 @@ public slots:
 
 private:
     void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     QImage m_image;
     QPointF m_point;
     qreal m_ratio;

@@ -13,9 +13,10 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
 
 void SurfaceWidget::updateSlot(QImage image, const QRect &rect)
 {
+    (void)rect;
     m_image = image;
     m_image.setDevicePixelRatio(m_ratio);
-    update(rect);
+    repaint();
 }
 
 void SurfaceWidget::resizeSlot(int width, int height)
@@ -46,5 +47,30 @@ void SurfaceWidget::paintEvent(QPaintEvent *event)
         QPainter painter(this);
         painter.drawImage(m_point, m_image, event->rect());
     }
+}
+
+void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (Qt::LeftButton == event->buttons()) {
+        QPointF p = event->localPos();
+        if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
+                && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
+                    && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+            emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
+                                    static_cast<int>((p.y() - m_point.y()) * m_ratio), 1);
+            return;
+        }
+    }
+    QWidget::mouseMoveEvent(event);
+}
+
+void SurfaceWidget::mousePressEvent(QMouseEvent *event)
+{
+    QWidget::mousePressEvent(event);
+}
+
+void SurfaceWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    QWidget::mouseReleaseEvent(event);
 }
 

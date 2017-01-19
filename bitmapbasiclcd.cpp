@@ -22,7 +22,7 @@ BitmapBasicLCD::~BitmapBasicLCD()
 
 void BitmapBasicLCD::clear()
 {
-    memset(lcd_buf, 0, lcdXSize * lcdYSize * lcdBpp);
+    memset(lcd_buf, 0x00, lcdXSize * lcdYSize * lcdBpp);
 }
 
 void BitmapBasicLCD::update()
