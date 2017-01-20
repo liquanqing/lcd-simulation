@@ -24,6 +24,7 @@ void WorkThread::initialize()
                                                     LCD_WIDTH,
                                                     LCD_HEIGHT,
                                                     bitsPerPixel(COLOR_FORMAT_RGB888));
+    connect(&m_thread, SIGNAL(started()), this, SLOT(threadStartSlot()));
     moveToThread(&m_thread);
     m_thread.start();
 }
@@ -32,11 +33,12 @@ void WorkThread::finalize()
 {
     m_thread.quit();
     m_thread.wait();
+    disconnect(&m_thread, SIGNAL(started()), this, SLOT(threadStartSlot()));
     delete m_controller;
     m_controller = NULL;
 }
 
-void WorkThread::drawRectSlot()
+void WorkThread::threadStartSlot()
 {
     m_controller->clear();
     m_controller->draw_rect(0, 0, 128, 64, RGB888(0,0,255));

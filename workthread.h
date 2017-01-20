@@ -18,7 +18,7 @@ public:
 signals:
 
 public slots:
-    void drawRectSlot();
+    void threadStartSlot();
     void pointerEventSlot(int x, int y, int b);
     void clearEventSlot(bool);
 
