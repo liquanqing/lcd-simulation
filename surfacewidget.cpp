@@ -67,6 +67,9 @@ void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
 
 void SurfaceWidget::mousePressEvent(QMouseEvent *event)
 {
+    if (Qt::RightButton == event->buttons()) {
+        emit clearSignal(true);
+    }
     QWidget::mousePressEvent(event);
 }
 

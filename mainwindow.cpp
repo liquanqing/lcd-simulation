@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     HostPlatformSurface *surface = dynamic_cast<HostPlatformSurface *>(HostPlatformSurface::instance());
     connect(this, SIGNAL(drawRectSignal()), &m_worker, SLOT(drawRectSlot()));
     connect(&m_painter, SIGNAL(pointerEventSignal(int,int,int)), &m_worker, SLOT(pointerEventSlot(int,int,int)));
+    connect(&m_painter, SIGNAL(clearSignal(bool)), &m_worker, SLOT(clearEventSlot(bool)));
     connect(surface, SIGNAL(updateSignal(QImage,QRect)), &m_painter, SLOT(updateSlot(QImage,QRect)));
     connect(surface, SIGNAL(resizeSignal(int,int)), &m_painter, SLOT(resizeSlot(int,int)));
     setCentralWidget(&m_painter);

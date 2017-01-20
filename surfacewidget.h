@@ -13,6 +13,7 @@ public:
 
 signals:
     void pointerEventSignal(int x, int y, int b);
+    void clearSignal(bool);
 
 public slots:
     void updateSlot(QImage image, const QRect &rect);

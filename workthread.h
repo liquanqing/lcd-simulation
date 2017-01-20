@@ -20,6 +20,7 @@ signals:
 public slots:
     void drawRectSlot();
     void pointerEventSlot(int x, int y, int b);
+    void clearEventSlot(bool);
 
 private:
     QThread m_thread;

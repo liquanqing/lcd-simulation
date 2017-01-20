@@ -54,3 +54,9 @@ void WorkThread::pointerEventSlot(int x, int y, int b)
     }
 }
 
+void WorkThread::clearEventSlot(bool)
+{
+    m_controller->clear();
+    m_controller->update();
+}
+
