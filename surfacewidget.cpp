@@ -13,7 +13,7 @@ SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
 
 void SurfaceWidget::updateSlot(QImage image, const QRect &rect)
 {
-    (void)rect;
+    Q_UNUSED(rect);
     m_image = image;
     m_image.setDevicePixelRatio(m_ratio);
     repaint();

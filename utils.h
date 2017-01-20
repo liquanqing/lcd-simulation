@@ -1,7 +1,10 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include "platformsurface.h"
+enum ColorFormat {
+    COLOR_FORMAT_RGB888,
+    COLOR_FORMAT_RGB16
+};
 
 extern int bitsPerPixel(ColorFormat format);
 

@@ -1,10 +1,7 @@
 #ifndef PLATFORMSURFACE
 #define PLATFORMSURFACE
 
-enum ColorFormat {
-    COLOR_FORMAT_RGB888,
-    COLOR_FORMAT_RGB16
-};
+#include "utils.h"
 
 class PlatformSurface {
 public:
