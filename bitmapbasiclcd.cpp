@@ -17,7 +17,7 @@ BitmapBasicLCD::BitmapBasicLCD(PlatformSurface *surface, int width, int height, 
 
 BitmapBasicLCD::~BitmapBasicLCD()
 {
-    delete lcd_buf;
+    delete [] lcd_buf;
 }
 
 void BitmapBasicLCD::clear()
