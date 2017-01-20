@@ -3,6 +3,8 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#include "utils.h"
+
 #define WIDGET_WIDTH  800
 #define WIDGET_HEIGHT 480
 
@@ -42,6 +44,26 @@ void SurfaceWidget::resizeSlot(int width, int height)
     }
 }
 
+int SurfaceWidget::buttonMaskConvert(Qt::MouseButtons button)
+{
+    switch (button) {
+    case Qt::NoButton:
+        return BUTTON_MASK_NONE;
+    case Qt::LeftButton:
+        return BUTTON_MASK_LEFT;
+    case Qt::RightButton:
+        return BUTTON_MASK_RIGHT;
+    case Qt::MidButton:
+        return BUTTON_MASK_MID;
+    case Qt::BackButton:
+        return BUTTON_MASK_BACK;
+    case Qt::ForwardButton:
+        return BUTTON_MASK_FORWARD;
+    default:
+        return BUTTON_MASK_NONE;
+    }
+}
+
 void SurfaceWidget::paintEvent(QPaintEvent *event)
 {
     if (!m_image.isNull()) {
@@ -52,23 +74,26 @@ void SurfaceWidget::paintEvent(QPaintEvent *event)
 
 void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (Qt::LeftButton == event->buttons()) {
-        QPointF p = event->localPos();
-        if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
-                && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
-                    && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
-            emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
-                                    static_cast<int>((p.y() - m_point.y()) * m_ratio), 1);
-            return;
-        }
+    QPointF p = event->localPos();
+    if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
+            && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
+                && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+        emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
+                                static_cast<int>((p.y() - m_point.y()) * m_ratio), buttonMaskConvert(event->buttons()));
+        return;
     }
     QWidget::mouseMoveEvent(event);
 }
 
 void SurfaceWidget::mousePressEvent(QMouseEvent *event)
 {
-    if (Qt::RightButton == event->buttons()) {
-        emit clearSignal(true);
+    QPointF p = event->localPos();
+    if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
+            && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
+                && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+        emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
+                                static_cast<int>((p.y() - m_point.y()) * m_ratio), buttonMaskConvert(event->button()));
+        return;
     }
     QWidget::mousePressEvent(event);
 }

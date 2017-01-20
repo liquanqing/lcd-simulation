@@ -20,7 +20,6 @@ signals:
 public slots:
     void threadStartSlot();
     void pointerEventSlot(int x, int y, int b);
-    void clearEventSlot(bool);
 
 private:
     QThread m_thread;

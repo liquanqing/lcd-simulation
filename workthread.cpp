@@ -50,15 +50,12 @@ void WorkThread::threadStartSlot()
 
 void WorkThread::pointerEventSlot(int x, int y, int b)
 {
-    if (b) {
+    if (b == BUTTON_MASK_LEFT) {
         m_controller->draw_pix(x, y, RGB888(255, 255, 255));
-        m_controller->update();
     }
-}
-
-void WorkThread::clearEventSlot(bool)
-{
-    m_controller->clear();
+    else {
+        m_controller->clear();
+    }
     m_controller->update();
 }
 

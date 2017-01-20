@@ -13,13 +13,13 @@ public:
 
 signals:
     void pointerEventSignal(int x, int y, int b);
-    void clearSignal(bool);
 
 public slots:
     void updateSlot(QImage image, const QRect &rect);
     void resizeSlot(int width, int height);
 
 private:
+    int buttonMaskConvert(Qt::MouseButtons button);
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
