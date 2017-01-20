@@ -20,6 +20,7 @@ public slots:
 
 private:
     int buttonMaskConvert(Qt::MouseButtons button);
+    bool isInsideWidget(QPointF p);
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);

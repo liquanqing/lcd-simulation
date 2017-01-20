@@ -64,6 +64,16 @@ int SurfaceWidget::buttonMaskConvert(Qt::MouseButtons button)
     }
 }
 
+bool SurfaceWidget::isInsideWidget(QPointF p)
+{
+    if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
+            && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
+                && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+        return true;
+    }
+    return false;
+}
+
 void SurfaceWidget::paintEvent(QPaintEvent *event)
 {
     if (!m_image.isNull()) {
@@ -75,11 +85,10 @@ void SurfaceWidget::paintEvent(QPaintEvent *event)
 void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
 {
     QPointF p = event->localPos();
-    if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
-            && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
-                && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+    if (isInsideWidget(p)) {
         emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
-                                static_cast<int>((p.y() - m_point.y()) * m_ratio), buttonMaskConvert(event->buttons()));
+                                static_cast<int>((p.y() - m_point.y()) * m_ratio),
+                                buttonMaskConvert(event->buttons()));
         return;
     }
     QWidget::mouseMoveEvent(event);
@@ -88,11 +97,10 @@ void SurfaceWidget::mouseMoveEvent(QMouseEvent *event)
 void SurfaceWidget::mousePressEvent(QMouseEvent *event)
 {
     QPointF p = event->localPos();
-    if (((p.x() >= m_point.x()) && (p.y() >= m_point.y()))
-            && ((p.x() <= m_point.x() + m_image.width() / m_ratio)
-                && (p.y() <= m_point.y() + m_image.height() / m_ratio))) {
+    if (isInsideWidget(p)) {
         emit pointerEventSignal(static_cast<int>((p.x() - m_point.x()) * m_ratio),
-                                static_cast<int>((p.y() - m_point.y()) * m_ratio), buttonMaskConvert(event->button()));
+                                static_cast<int>((p.y() - m_point.y()) * m_ratio),
+                                buttonMaskConvert(event->button()));
         return;
     }
     QWidget::mousePressEvent(event);
