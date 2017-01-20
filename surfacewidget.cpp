@@ -7,6 +7,7 @@
 #define WIDGET_HEIGHT 480
 
 SurfaceWidget::SurfaceWidget(QWidget *parent) : QWidget(parent)
+, m_ratio(1)
 {
     setFixedSize(QSize(WIDGET_WIDTH, WIDGET_HEIGHT));
 }
